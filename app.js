@@ -21,13 +21,34 @@ var uiController = (function () {
     },
   };
 })();
+// санхүүтэй ажиллах
+var financeController = (function () {
+  var Income = function (id, desription, value) {
+    this.id = id;
+    this.desription = desription;
+    this.value = value;
+  };
 
-var financeController = (function () {})();
+  var Expense = function (id, desription, value) {
+    this.id = id;
+    this.desription = desription;
+    this.value = value;
+  };
+  var data = {
+    allItems: {
+      inc: [],
+      exp: [],
+    },
+
+    totals: {
+      inc: 0,
+      exp: 0,
+    },
+  };
+})();
 
 // Програмын холбогч контроллер
 var appController = (function (uiController, financeController) {
-  var DOM = uiController.getDOMstrings();
-
   var ctrlAddItem = function () {
     // 1. оруулах өгдлийг дэлгэцээс олж авна
     console.log(uiController.getInput());
@@ -36,14 +57,24 @@ var appController = (function (uiController, financeController) {
     // 4. төсвийг тооцоолно
     // 5. эцсийн үлдэгдэл, тооцоог дэлгэцэнд гаргана.
   };
-
-  document.querySelector(DOM.addBtn).addEventListener("click", function () {
-    ctrlAddItem();
-  });
-
-  document.addEventListener("keypress", function (event) {
-    if (event.keyCode === 13 || event.which === 13) {
+  var setupEvenlisteners = function () {
+    var DOM = uiController.getDOMstrings();
+    document.querySelector(DOM.addBtn).addEventListener("click", function () {
       ctrlAddItem();
-    }
-  });
+    });
+
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 13 || event.which === 13) {
+        ctrlAddItem();
+      }
+    });
+  };
+  return {
+    init: function () {
+      console.log("Application started...");
+      setupEvenlisteners();
+    },
+  };
 })(uiController, financeController);
+
+appController.init();
